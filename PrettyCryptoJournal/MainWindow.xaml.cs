@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -21,6 +23,15 @@ namespace PrettyCryptoJournal
     /// </summary>
     public partial class MainWindow : Window
     {
+        /*Application PRoperties*/
+
+        bool current_state;
+
+
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,17 +42,21 @@ namespace PrettyCryptoJournal
 
         }
 
+        void OnKeyDown(object sender, RoutedEventArgs e)
+        {
+            if (current_state)
+            {
+                Debug.WriteLine("scramble toggle enabled");
+            }
+
+        }
+
         void openBtn_Click(object sender, RoutedEventArgs e)
         {
-
+           
         }
 
         void saveBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        void scrambleBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -53,6 +68,40 @@ namespace PrettyCryptoJournal
 
         private void textEditor_TextChanged(object sender, TextChangedEventArgs e)
         {
+
+        }
+
+        void scrambleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            stateMaker();
+
+            if (current_state == true) // toggle on
+            {
+                TextEditor.
+               
+            }
+
+
+            else // toggle off
+            {
+               
+            }
+
+
+        }
+
+
+
+        private void stateMaker()
+        {
+            if (current_state == true)
+            {
+                current_state = false;
+            }
+            else
+            {
+                current_state = true;
+            }
 
         }
     }

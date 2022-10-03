@@ -39,6 +39,7 @@
 				FontFamily="Consolas"
 				FontSize="10pt"
 				SyntaxHighlighting="C#" Background="#FFFFE7E7"
+                KeyDown="OnKeyDown"
 			>Tell Me Your Secrets!
             </avalonEdit:TextEditor>
           
