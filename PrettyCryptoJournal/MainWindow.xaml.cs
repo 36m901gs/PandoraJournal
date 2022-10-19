@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Rendering;
 
 namespace PrettyCryptoJournal
 {
@@ -44,9 +45,13 @@ namespace PrettyCryptoJournal
 
         void OnKeyDown(object sender, RoutedEventArgs e)
         {
+            var visualLines = textEditor.Text; 
+
             if (current_state)
             {
-                Debug.WriteLine("scramble toggle enabled");
+                //FIGURED IT OUT! THIS IS HOW I MODIFY/PULL TEXT ON SCREEN. YAAAY
+                // Debug.WriteLine(visualLines);
+                //textEditor.Text = "penis";
             }
 
         }
@@ -77,7 +82,7 @@ namespace PrettyCryptoJournal
 
             if (current_state == true) // toggle on
             {
-                TextEditor.
+        //        TextEditor.
                
             }
 
