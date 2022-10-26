@@ -51,10 +51,40 @@ namespace PrettyCryptoJournal
             if (current_state)
             {
 
+                if (current_state)
+                {
 
+                    Asterisk_Dropper(e);
+
+                    /*
+                    if (e != (char)Keys.Back)
+                    {
+
+                        Asterisk_Dropper(e);
+
+                    }*/
+                    //FIGURED IT OUT! THIS IS HOW I MODIFY/PULL TEXT ON SCREEN. YAAAY
+                    // Debug.WriteLine(visualLines);
+                    //textEditor.Text = "penis";
+
+                    /*
+                    else
+                    {
+                        textEditor.Text = textEditor.Text.Substring(0, textEditor.Text.Length - 1);
+                        text_store = text_store.Substring(0, text_store.Length - 1);
+                        textEditor.Select(textEditor.Text.Length, 0);
+                    } */
+                }
+
+
+
+
+
+
+                /*
                 if (((char)e.Key) != (char)Keys.Back)
                 {
-                    var test = (char)e.Key; //figure out how to get a key out of this
+                    var test = e.Key; //This works!
 
                     //  Asterisk_Dropper(e);
                     Debug.WriteLine(test);
@@ -68,7 +98,9 @@ namespace PrettyCryptoJournal
                     textEditor.Text = textEditor.Text.Substring(0, textEditor.Text.Length - 1);
                     text_store = text_store.Substring(0, text_store.Length - 1);
                     textEditor.Select(textEditor.Text.Length, 0);
-                }
+                }*/
+
+
             }
 
         }
@@ -100,12 +132,12 @@ namespace PrettyCryptoJournal
 
         } */
 
-        private void Asterisk_Dropper(KeyPressEventArgs e)
+        private void Asterisk_Dropper(System.Windows.Input.KeyEventArgs e)
         {
             //(ADD) -- need to add functionality to manually add backspace
 
             //(1) store last non hidden value in text_store
-            text_store += e.KeyChar;   //richTextBox1.Text.Substring(richTextBox1.Text.Length - 1);
+            text_store += e.SystemKey;   //10-25 NEED TO MODIFY THIS TO ACTUALLY PUT THE CHAR AND NOT THE EVENT
             //(2) change it to an asterisk and add last typed value on text
             textEditor.Text += "*";
             textEditor.Select(textEditor.Text.Length, 0);
@@ -139,14 +171,26 @@ namespace PrettyCryptoJournal
 
             if (current_state == true) // toggle on
             {
-        //        TextEditor.
-               
+
+                textEditor.IsReadOnly = true;
+                text_store = textEditor.Text; // store all current text before we initialize everything
+                textEditor.Text = String.Concat(Enumerable.Repeat("*", (textEditor.Text.Length)));
+                textEditor.Select(textEditor.Text.Length, 0);
+
+
             }
 
 
             else // toggle off
             {
-               
+                //restore text - BROKEN
+                textEditor.Text = text_store;
+                textEditor.Select(textEditor.Text.Length, 0);
+                text_store = "";
+                textEditor.IsReadOnly = false;
+
+
+
             }
 
 
