@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Rendering;
+using System.Security.Cryptography;
 
 namespace PrettyCryptoJournal
 {
@@ -46,6 +47,52 @@ namespace PrettyCryptoJournal
         {
 
         }
+        public byte[] EncryptTest()
+        {
+            byte[] encrypted;
+            //dependency injection gonna be valuable here!
+            using (Aes myAes = Aes.Create())
+            {
+                var keytest = myAes.Key; //alright so the key is here, gonna assume the IV is there too. So, two questions (1) save it? [answer:yes] (2) no others!
+                ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
+
+                // Create the streams used for encryption.
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            //Write all data to the stream.
+                            swEncrypt.Write(textEditor.Text);
+
+                            //save the key (use for decrypt test)
+
+                            //(1)step one - convert key to string (success)
+
+                            //(2)step two, save it and use it to decrypt
+                            var testKey = Convert.ToBase64String(myAes.Key);
+
+                            var testIv = Convert.ToBase64String(myAes.IV);
+                            File.WriteAllBytes("C:\\Users\\njiso\\Desktop\\Key", myAes.Key);
+                            File.WriteAllBytes("C:\\Users\\njiso\\Desktop\\IV", myAes.IV);
+                            Console.WriteLine(testKey);
+                            Console.WriteLine(testIv);
+                        }
+
+                    }
+                    encrypted = msEncrypt.ToArray();
+
+                }
+
+
+            }
+
+            return encrypted; // returns an encrypted array of bytes. this is your file to save (down the road. write now it only operates on "Hello WOrld"
+            //(1) the question is #1 - how do I save the key and the IV here. ANd do you need the IV to decrypt? yes. so how do you save this
+            //
+
+        }
 
         private void textEditor_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -53,87 +100,14 @@ namespace PrettyCryptoJournal
 
             if (current_state)
             {
-
                 if (current_state)
                 {
-
                     Asterisk_Dropper(e);
-
-                    /*
-                    if (e != (char)Keys.Back)
-                    {
-
-                        Asterisk_Dropper(e);
-
-                    }*/
-                    //FIGURED IT OUT! THIS IS HOW I MODIFY/PULL TEXT ON SCREEN. YAAAY
-                    // Debug.WriteLine(visualLines);
-                    //textEditor.Text = "penis";
-
-                    /*
-                    else
-                    {
-                        textEditor.Text = textEditor.Text.Substring(0, textEditor.Text.Length - 1);
-                        text_store = text_store.Substring(0, text_store.Length - 1);
-                        textEditor.Select(textEditor.Text.Length, 0);
-                    } */
+  
                 }
-
-
-
-
-
-
-                /*
-                if (((char)e.Key) != (char)Keys.Back)
-                {
-                    var test = e.Key; //This works!
-
-                    //  Asterisk_Dropper(e);
-                    Debug.WriteLine(test);
-
-                }
-                //FIGURED IT OUT! THIS IS HOW I MODIFY/PULL TEXT ON SCREEN. YAAAY
-                // Debug.WriteLine(visualLines);
-                //textEditor.Text = "penis";
-                else
-                {
-                    textEditor.Text = textEditor.Text.Substring(0, textEditor.Text.Length - 1);
-                    text_store = text_store.Substring(0, text_store.Length - 1);
-                    textEditor.Select(textEditor.Text.Length, 0);
-                }*/
-
-
             }
-
         }
 
-        /* void OnKeyDown(object sender, KeyPressEventArgs e)
-        {
-            var visualLines = textEditor.Text; 
-
-            if (current_state)
-            {
-
-                
-                if (e.KeyChar != (char)Keys.Back)
-                {
-
-                    Asterisk_Dropper(e);
-
-                }
-                //FIGURED IT OUT! THIS IS HOW I MODIFY/PULL TEXT ON SCREEN. YAAAY
-                // Debug.WriteLine(visualLines);
-                //textEditor.Text = "penis";
-                else
-                {
-                    textEditor.Text = textEditor.Text.Substring(0, textEditor.Text.Length - 1);
-                    text_store = text_store.Substring(0, text_store.Length - 1);
-                    textEditor.Select(textEditor.Text.Length, 0);
-                }
-            }
-
-        } */
 
         private void Asterisk_Dropper(System.Windows.Input.KeyEventArgs e)
         {
@@ -161,9 +135,20 @@ namespace PrettyCryptoJournal
             }
 
         }
+        void EncrypTextFunction()
+        {
+            //generate key, IV. Save them to directory 
+            // Encrypt text 
+            // Open save dialog(?)
+            // Save file
 
+
+
+
+        }
         void saveBtn_Click(object sender, RoutedEventArgs e)
         {
+            var savefile = EncryptTest();
             if (currentFileName == null)
             {
                 SaveFileDialog dlg = new SaveFileDialog();
@@ -171,12 +156,16 @@ namespace PrettyCryptoJournal
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     currentFileName = dlg.FileName;
+                    //DecryptFile()
                 }
                 else
                 {
                     return;
+                    //DescryptTextArea()
                 }
-            }
+            } //we will just use the dialog to save it as a writefile or something
+
+            //add an else here using the filename as the base file text
             textEditor.Save(currentFileName);
 
         }
