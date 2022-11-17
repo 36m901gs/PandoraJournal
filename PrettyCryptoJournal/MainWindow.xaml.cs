@@ -88,9 +88,7 @@ namespace PrettyCryptoJournal
 
             }
 
-            return encrypted; // returns an encrypted array of bytes. this is your file to save (down the road. write now it only operates on "Hello WOrld"
-            //(1) the question is #1 - how do I save the key and the IV here. ANd do you need the IV to decrypt? yes. so how do you save this
-            //
+            return encrypted; // (1) this is the thing that needs to be saved
 
         }
 
@@ -148,11 +146,15 @@ namespace PrettyCryptoJournal
         }
         void saveBtn_Click(object sender, RoutedEventArgs e)
         {
+            //(0) become fukijama graffiti artist in next 4 months. graffiti daily
+            //(1)encrypts the text area, now in bytes. we need to drop this from memory though. also, go whole hog on indy dev. need to save this
             var savefile = EncryptTest();
+
             if (currentFileName == null)
             {
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.DefaultExt = ".txt";
+                //(2) sets file name. we need a manual save method. write that up. put one here
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     currentFileName = dlg.FileName;
@@ -160,13 +162,18 @@ namespace PrettyCryptoJournal
                 }
                 else
                 {
+                    //put save method here too
                     return;
                     //DescryptTextArea()
                 }
             } //we will just use the dialog to save it as a writefile or something
 
-            //add an else here using the filename as the base file text
-            textEditor.Save(currentFileName);
+            else // if it isn't null, use the current filename and do all the same shit. WE ALSO NEED TO DO A CHECK, IF IV/KEY AREN'T NULL, LOAD FROM CORRESPONDING FOLDER.
+            //ELSE, MAKE NEW ONES, LOAD THEM INTO CORRESPONDING FOLDER. THINK THROUGH THIS IN THE SHOWER AND MAKE IT SIMPLER
+            {
+
+            }
+            
 
         }
 

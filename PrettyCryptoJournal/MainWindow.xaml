@@ -40,6 +40,7 @@
 				FontSize="10pt"
 				SyntaxHighlighting="C#" Background="#FFFFE7E7"
                 KeyDown="textEditor_KeyDown"
+                WordWrap="True"
                 
 			>Tell Me Your Secrets!
             </avalonEdit:TextEditor>
