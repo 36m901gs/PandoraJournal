@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "MZ40TLLJbI8zbNzip8E3lQWGuuaotLh/JlcMB9P78Xb4WqRS4XTPi+TvBFxAD5xl667uPD7PagESL4ju1oOCjA==",
+  "dgSpecHash": "s4Ja+4JqGMQXuz63lQglf4P0Ux4joNJSsfbp2uaadG5O94c7h+MIuUt6DRhyL8qBF13hlo9q14sMWqsxqUIK4Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\njiso\\source\\repos\\PandoraJournal\\PrettyCryptoJournal\\PrettyCryptoJournal.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\njiso\\.nuget\\packages\\avalonedit\\6.1.3.50\\avalonedit.6.1.3.50.nupkg.sha512"
+    "C:\\Users\\njiso\\.nuget\\packages\\avalonedit\\6.1.3.50\\avalonedit.6.1.3.50.nupkg.sha512",
+    "C:\\Users\\njiso\\.nuget\\packages\\microsoft.visualbasic\\10.3.0\\microsoft.visualbasic.10.3.0.nupkg.sha512"
   ],
   "logs": []
 }

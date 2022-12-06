@@ -40,6 +40,10 @@ namespace PrettyCryptoJournal
 
         public MainWindow()
         {
+
+            // boot up functon
+            var password = Microsoft.VisualBasic.Interaction.InputBox("Password", "Title", "Default Text");
+
             InitializeComponent();
         }
 
@@ -123,6 +127,9 @@ namespace PrettyCryptoJournal
 
         void openBtn_Click(object sender, RoutedEventArgs e)
         {
+
+            //if file is bytes, decrypt. else, use below
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.CheckFileExists = true;
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -146,33 +153,25 @@ namespace PrettyCryptoJournal
         }
         void saveBtn_Click(object sender, RoutedEventArgs e)
         {
-            //(0) become fukijama graffiti artist in next 4 months. graffiti daily
-            //(1)encrypts the text area, now in bytes. we need to drop this from memory though. also, go whole hog on indy dev. need to save this
+            //(1)encrypts the text area, now in bytes. we need to drop this from memory though. need to save this
             var savefile = EncryptTest();
+           // string filepath = "C:\\Users\\njiso\\Desktop\\"; 
 
-            if (currentFileName == null)
-            {
+            
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.DefaultExt = ".txt";
                 //(2) sets file name. we need a manual save method. write that up. put one here
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     currentFileName = dlg.FileName;
+                   // filepath += currentFileName;
+                    File.WriteAllBytes(currentFileName, savefile);
                     //DecryptFile()
                 }
                 else
                 {
-                    //put save method here too
                     return;
-                    //DescryptTextArea()
                 }
-            } //we will just use the dialog to save it as a writefile or something
-
-            else // if it isn't null, use the current filename and do all the same shit. WE ALSO NEED TO DO A CHECK, IF IV/KEY AREN'T NULL, LOAD FROM CORRESPONDING FOLDER.
-            //ELSE, MAKE NEW ONES, LOAD THEM INTO CORRESPONDING FOLDER. THINK THROUGH THIS IN THE SHOWER AND MAKE IT SIMPLER
-            {
-
-            }
             
 
         }

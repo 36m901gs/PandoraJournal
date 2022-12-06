@@ -43,6 +43,10 @@
             "AvalonEdit": {
               "target": "Package",
               "version": "[6.1.3.50, )"
+            },
+            "Microsoft.VisualBasic": {
+              "target": "Package",
+              "version": "[10.3.0, )"
             }
           },
           "imports": [
