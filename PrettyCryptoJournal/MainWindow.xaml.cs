@@ -42,9 +42,12 @@ namespace PrettyCryptoJournal
         {
 
             // boot up functon
-            var password = Microsoft.VisualBasic.Interaction.InputBox("Password", "Title", "Default Text");
-
-            InitializeComponent();
+            var booter = new OnBoot();
+            if(booter.AppBoot())
+            {
+                InitializeComponent();
+            };
+           
         }
 
         private void textEditor_SelectionChanged(object sender, RoutedEventArgs e)

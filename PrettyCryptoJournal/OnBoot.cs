@@ -18,7 +18,7 @@ namespace PrettyCryptoJournal
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
 
-        string HashPasword(string password, out byte[] salt)
+        void HashPasword(string password, out byte[] salt)
         {
             salt = RandomNumberGenerator.GetBytes(keySize);
 
@@ -29,15 +29,18 @@ namespace PrettyCryptoJournal
                 hashAlgorithm,
                 keySize);
 
-            return Convert.ToHexString(hash);
+            var hashSave = Convert.ToHexString(hash);
+            File.WriteAllText(@"C:\Users\njiso\Desktop\test", hashSave); //gonna have to make this save path more dynamic later
+            File.WriteAllBytes(@"C:\Users\njiso\Desktop\salt", salt);
         }
 
         //verify password
         bool VerifyPassword(string password, string hash, byte[] salt)
         {
             var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
-
-            return hashToCompare.SequenceEqual(Convert.FromHexString(hash));
+            var booltest = hashToCompare.SequenceEqual(Convert.FromHexString(hash));
+            Console.WriteLine(booltest);
+            return booltest;
         }
 
 
@@ -49,7 +52,7 @@ namespace PrettyCryptoJournal
         public bool Xml()
         {
 
-         if(File.Exists("file"))
+         if(File.Exists(@"C:\Users\njiso\Desktop\test") && File.Exists(@"C:\Users\njiso\Desktop\salt"))
            {
                 return true;
             }
@@ -59,8 +62,16 @@ namespace PrettyCryptoJournal
 
         public bool PasswordRules(string password)
         {
+            if (password.Length > 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
-            return true;
+            
 
         }
 
@@ -70,21 +81,22 @@ namespace PrettyCryptoJournal
 
             //make dialogue box asking for password -- will later figure out how to use this hash in a key?
             //wrap this up in a function later
-           var password = Microsoft.VisualBasic.Interaction.InputBox("Password", "Title", "Default Text");
-            if (!PasswordRules(password)) 
-            {
-                password = Microsoft.VisualBasic.Interaction.InputBox("Password", "Title", "Default Text");
-            }
-            var password2 = Microsoft.VisualBasic.Interaction.InputBox("Confirm Password", "Title", "Default Text");
 
-            while(password != password2)
-            {
-                password2 = Microsoft.VisualBasic.Interaction.InputBox("Confirm Password", "Title", "Default Text");
+            string password ="";
+            string password2 = "";
 
+            while(!PasswordRules(password)) 
+            {
+                password = Microsoft.VisualBasic.Interaction.InputBox("Password", "Security", "Please Type in A Password");
             }
 
+            while(password != password2 && PasswordRules(password2)==false)
+            {
+                password2 = Microsoft.VisualBasic.Interaction.InputBox("Confirm Password", "Security", "Please Retype Password");
+            }
 
-            //use input to create password
+            //use input to create password and salt
+            HashPasword(password2, out var salt);
 
 
             return true;
@@ -92,23 +104,24 @@ namespace PrettyCryptoJournal
 
 
         //user access - noticing, generating, authenticating users -- will have to make from scratch to avoid using sql db
-        public void AppBoot()
+        public bool AppBoot()
         {
-            if (Xml())
-            {
-                //(1) match hashes in XML - if it doesn't match, close the app
+            string userinput = "";
 
-                //ask for user input
-
-                //compare inputs
-
-                //if it works, close dialoge box. if it doesnt, prompt again
-
-            }
-            else
+            while (!Xml())
             {
                 GenerateNewXML();
             }
+
+            //password compare 
+            while(!(VerifyPassword(userinput, File.ReadAllText(@"C:\Users\njiso\Desktop\test"),File.ReadAllBytes(@"C:\Users\njiso\Desktop\salt"))))
+            {
+                //once this works, add a count to it
+                userinput = Microsoft.VisualBasic.Interaction.InputBox("Password", "Security", "Please Type in A Password");
+
+            };
+
+            return true;
 
 
         }
