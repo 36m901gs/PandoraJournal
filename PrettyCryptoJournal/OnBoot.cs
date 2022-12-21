@@ -38,15 +38,11 @@ namespace PrettyCryptoJournal
         bool VerifyPassword(string password, string hash, byte[] salt)
         {
             var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
+            var generaltest = Convert.ToHexString(hashToCompare);
             var booltest = hashToCompare.SequenceEqual(Convert.FromHexString(hash));
-            Console.WriteLine(booltest);
+            Console.WriteLine(hash);
             return booltest;
         }
-
-
-
-
-
 
 
         public bool Xml()
@@ -126,12 +122,5 @@ namespace PrettyCryptoJournal
 
         }
             
-         
-
-        //(2) 
-
-        //key management - noticing, generating keys
-
-        //spark application after first steps are done
     }
 }
