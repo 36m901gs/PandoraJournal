@@ -156,26 +156,38 @@ namespace PrettyCryptoJournal
         }
         void saveBtn_Click(object sender, RoutedEventArgs e)
         {
-            //(1)encrypts the text area, now in bytes. we need to drop this from memory though. need to save this
-            var savefile = EncryptTest();
-           // string filepath = "C:\\Users\\njiso\\Desktop\\"; 
+            DialogResult dialogResult = System.Windows.Forms.MessageBox.Show("Encrypt?", "", MessageBoxButtons.YesNo);
 
-            
+            //(1)encrypts the text area, now in bytes. we need to drop this from memory though. need to save this
+
+           if(dialogResult == System.Windows.Forms.DialogResult.Yes) {
+=
+                //do my sophisticated encryption thang
+                // check to see if scramble toggle is enabled, then assign 
+                // variable that will hold canvas text?
+
+                current_state ? FileSaving.EncryptTest(text_store) : FileSaving.EncryptTest(textEditor.Text);
+
+            }
+          
+        }
+
+        void normalSave_Click()
+        {
+             Console.WriteLine("Test - normal saving. Will be later");
+
+                //save normally
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.DefaultExt = ".txt";
-                //(2) sets file name. we need a manual save method. write that up. put one here
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     currentFileName = dlg.FileName;
-                   // filepath += currentFileName;
                     File.WriteAllBytes(currentFileName, savefile);
-                    //DecryptFile()
                 }
                 else
                 {
                     return;
                 }
-            
 
         }
 
