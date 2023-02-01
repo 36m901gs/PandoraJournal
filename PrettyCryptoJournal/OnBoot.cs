@@ -30,8 +30,8 @@ namespace PrettyCryptoJournal
                 keySize);
 
             var hashSave = Convert.ToHexString(hash);
-            File.WriteAllText(@"C:\Users\njiso\Desktop\test", hashSave); //gonna have to make this save path more dynamic later
-            File.WriteAllBytes(@"C:\Users\njiso\Desktop\salt", salt);
+            File.WriteAllText(@"C:\Users\Nigel Isom\Desktop\test", hashSave); //gonna have to make this save path more dynamic later
+            File.WriteAllBytes(@"C:\Users\Nigel Isom\Desktop\salt", salt);
         }
 
         //verify password
@@ -48,7 +48,7 @@ namespace PrettyCryptoJournal
         public bool Xml()
         {
 
-         if(File.Exists(@"C:\Users\njiso\Desktop\test") && File.Exists(@"C:\Users\njiso\Desktop\salt"))
+         if(File.Exists(@"C:\Users\Nigel Isom\Desktop\test") && File.Exists(@"C:\Users\Nigel Isom\Desktop\salt"))
            {
                 return true;
             }
@@ -110,7 +110,7 @@ namespace PrettyCryptoJournal
             }
 
             //password compare 
-            while(!(VerifyPassword(userinput, File.ReadAllText(@"C:\Users\njiso\Desktop\test"),File.ReadAllBytes(@"C:\Users\njiso\Desktop\salt"))))
+            while(!(VerifyPassword(userinput, File.ReadAllText(@"C:\Users\Nigel Isom\Desktop\test"),File.ReadAllBytes(@"C:\Users\Nigel Isom\Desktop\salt"))))
             {
                 //once this works, add a count to it
                 userinput = Microsoft.VisualBasic.Interaction.InputBox("Password", "Security", "Please Type in A Password");

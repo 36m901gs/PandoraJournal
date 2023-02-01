@@ -21,6 +21,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Rendering;
 using System.Security.Cryptography;
 
+
 namespace PrettyCryptoJournal
 {
     /// <summary>
@@ -54,50 +55,7 @@ namespace PrettyCryptoJournal
         {
 
         }
-        public byte[] EncryptTest()
-        {
-            byte[] encrypted;
-            //dependency injection gonna be valuable here!
-            using (Aes myAes = Aes.Create())
-            {
-                var keytest = myAes.Key; //alright so the key is here, gonna assume the IV is there too. So, two questions (1) save it? [answer:yes] (2) no others!
-                ICryptoTransform encryptor = myAes.CreateEncryptor(myAes.Key, myAes.IV);
-
-                // Create the streams used for encryption.
-                using (MemoryStream msEncrypt = new MemoryStream())
-                {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            //Write all data to the stream.
-                            swEncrypt.Write(textEditor.Text);
-
-                            //save the key (use for decrypt test)
-
-                            //(1)step one - convert key to string (success)
-
-                            //(2)step two, save it and use it to decrypt
-                            var testKey = Convert.ToBase64String(myAes.Key);
-
-                            var testIv = Convert.ToBase64String(myAes.IV);
-                            File.WriteAllBytes("C:\\Users\\njiso\\Desktop\\Key", myAes.Key);
-                            File.WriteAllBytes("C:\\Users\\njiso\\Desktop\\IV", myAes.IV);
-                            Console.WriteLine(testKey);
-                            Console.WriteLine(testIv);
-                        }
-
-                    }
-                    encrypted = msEncrypt.ToArray();
-
-                }
-
-
-            }
-
-            return encrypted; // (1) this is the thing that needs to be saved
-
-        }
+       
 
         private void textEditor_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -131,8 +89,11 @@ namespace PrettyCryptoJournal
         void openBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            //if file is bytes, decrypt. else, use below
+            var OpenemUp = new FileSaving();
+            OpenemUp.DecryptTest();
 
+            //if file is bytes, decrypt. else, use below
+            /*
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.CheckFileExists = true;
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -140,7 +101,7 @@ namespace PrettyCryptoJournal
                 currentFileName = dlg.FileName;
                 textEditor.Load(currentFileName);
                 textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(System.IO.Path.GetExtension(currentFileName));
-            }
+            } */
 
         }
         void EncrypTextFunction()
@@ -161,35 +122,30 @@ namespace PrettyCryptoJournal
             //(1)encrypts the text area, now in bytes. we need to drop this from memory though. need to save this
 
            if(dialogResult == System.Windows.Forms.DialogResult.Yes) {
-=
                 //do my sophisticated encryption thang
                 // check to see if scramble toggle is enabled, then assign 
                 // variable that will hold canvas text?
+                var Saver = new FileSaving();
 
-                current_state ? FileSaving.EncryptTest(text_store) : FileSaving.EncryptTest(textEditor.Text);
+
+                if (current_state) 
+                {
+                    Saver.EncryptTest(text_store); 
+                }
+                else{
+                    
+                    Saver.EncryptTest(textEditor.Text); 
+                }
+
+            }
+
+            else
+            {
+                Console.WriteLine("Test - normal saving. Will be later");
 
             }
           
-        }
-
-        void normalSave_Click()
-        {
-             Console.WriteLine("Test - normal saving. Will be later");
-
-                //save normally
-                SaveFileDialog dlg = new SaveFileDialog();
-                dlg.DefaultExt = ".txt";
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    currentFileName = dlg.FileName;
-                    File.WriteAllBytes(currentFileName, savefile);
-                }
-                else
-                {
-                    return;
-                }
-
-        }
+        } 
 
         void KeyBtn_Click(object sender, RoutedEventArgs e)
         {

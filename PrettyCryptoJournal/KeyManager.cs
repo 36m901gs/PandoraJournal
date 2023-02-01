@@ -13,8 +13,12 @@ namespace PrettyCryptoJournal
 
         //Generate Key -- should this check for keys too? or just make it?
         
-        public byte[] EncryptTest(string filepath)
+        public byte[] EncryptTest(string keypath)
         {
+
+
+            //let's do a simple example first. then we'll do one where the key is made from the password
+
             byte[] encrypted;
             //dependency injection gonna be valuable here!
             using (Aes myAes = Aes.Create())

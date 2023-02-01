@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace PrettyCryptoJournal
 {
@@ -14,7 +15,7 @@ namespace PrettyCryptoJournal
         const int keySize = 64;
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
-        public static void EncryptTest(string inputText)
+        public void EncryptTest(string inputText)
         {
 
             Aes aes = Aes.Create();
@@ -25,7 +26,7 @@ namespace PrettyCryptoJournal
             int l_Key = aes.Key.Length;
             byte[] LenKey = BitConverter.GetBytes(l_Key);
 
-            string outFile = "C:\\Users\\njiso\\Desktop\\TessyWessy";
+            string outFile = "C:\\Users\\Nigel Isom\\Desktop\\TessyWessy";
 
             //dependency injection gonna be valuable here!
             using (var outFs = new FileStream(outFile, FileMode.Create))
@@ -61,7 +62,7 @@ namespace PrettyCryptoJournal
 
             byte[] LenK = new byte[4];
             byte[] LenIV = new byte[4];
-            using (var openedSave = new FileStream("C:\\Users\\njiso\\Desktop\\TessyWessy", FileMode.Open))
+            using (var openedSave = new FileStream("C:\\Users\\Nigel Isom\\Desktop\\TessyWessy", FileMode.Open))
             {
 
                 openedSave.Seek(0, SeekOrigin.Begin);
@@ -134,10 +135,10 @@ namespace PrettyCryptoJournal
 
                         var pre_result = Convert.ToBase64String(data);
 
-                        Console.WriteLine("Unencrypted final result is ");
-                        Console.WriteLine(un_encrypted);
-                        Console.WriteLine("Encryped result we're getting is");
-                        Console.WriteLine(pre_result);
+                        Debug.WriteLine("Unencrypted final result is ");
+                        Debug.WriteLine(un_encrypted);
+                        Debug.WriteLine("Encryped result we're getting is");
+                        Debug.WriteLine(pre_result);
 
                     }
                 }
