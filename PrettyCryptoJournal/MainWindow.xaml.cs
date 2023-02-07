@@ -33,6 +33,7 @@ namespace PrettyCryptoJournal
 
         bool current_state;
         string text_store; //for holding text during camo mode
+        
 
 
 
@@ -48,7 +49,7 @@ namespace PrettyCryptoJournal
             {
                 InitializeComponent();
             };
-           
+            textEditor.SyntaxHighlighting = null;
         }
 
         private void textEditor_SelectionChanged(object sender, RoutedEventArgs e)
@@ -89,8 +90,11 @@ namespace PrettyCryptoJournal
         void openBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            var OpenemUp = new FileSaving();
-            OpenemUp.DecryptTest();
+            //basically just run decrypt here for now, th4e dialogue should open and pass the file to the decrypt method
+            var Opener = new FileSaving();
+            textEditor.Text = Opener.DecryptTest();
+
+           
 
             //if file is bytes, decrypt. else, use below
             /*

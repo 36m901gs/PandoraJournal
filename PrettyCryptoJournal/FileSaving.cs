@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using ICSharpCode.AvalonEdit;
 
 namespace PrettyCryptoJournal
 {
@@ -26,7 +27,7 @@ namespace PrettyCryptoJournal
             int l_Key = aes.Key.Length;
             byte[] LenKey = BitConverter.GetBytes(l_Key);
 
-            string outFile = "C:\\Users\\Nigel Isom\\Desktop\\TessyWessy";
+            string outFile = "C:\\Users\\njiso\\Desktop\\TessyWessy";
 
             //dependency injection gonna be valuable here!
             using (var outFs = new FileStream(outFile, FileMode.Create))
@@ -55,14 +56,14 @@ namespace PrettyCryptoJournal
             }
         }
 
-        public void DecryptTest()
+        public string DecryptTest()
         {
 
             Aes aes = Aes.Create();
 
             byte[] LenK = new byte[4];
             byte[] LenIV = new byte[4];
-            using (var openedSave = new FileStream("C:\\Users\\Nigel Isom\\Desktop\\TessyWessy", FileMode.Open))
+            using (var openedSave = new FileStream("C:\\Users\\njiso\\Desktop\\TessyWessy", FileMode.Open))
             {
 
                 openedSave.Seek(0, SeekOrigin.Begin);
@@ -139,6 +140,9 @@ namespace PrettyCryptoJournal
                         Debug.WriteLine(un_encrypted);
                         Debug.WriteLine("Encryped result we're getting is");
                         Debug.WriteLine(pre_result);
+
+                        //Assign the text field 
+                        return un_encrypted;
 
                     }
                 }
