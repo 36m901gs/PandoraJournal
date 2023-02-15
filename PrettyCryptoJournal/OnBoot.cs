@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.VisualBasic;
 using System.Security.Cryptography;
+using System.DirectoryServices;
+using System.Windows.Shapes;
 
 namespace PrettyCryptoJournal
 {
     internal class OnBoot
     {
+
+        //location of directories
+        string AppDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Cryptojournal";
+        string userStuff = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Cryptojournal" + "\\.deb";
+
 
         //generate password hash hash function 
 
@@ -30,8 +37,8 @@ namespace PrettyCryptoJournal
                 keySize);
 
             var hashSave = Convert.ToHexString(hash);
-            File.WriteAllText(@"C:\Users\njiso\Desktop\test", hashSave); //gonna have to make this save path more dynamic later
-            File.WriteAllBytes(@"C:\Users\njiso\Desktop\salt", salt);
+            File.WriteAllText(userStuff + "\\test", hashSave); //gonna have to make this save path more dynamic later
+            File.WriteAllBytes(userStuff + "\\salt", salt);
         }
 
         //verify password
@@ -48,7 +55,7 @@ namespace PrettyCryptoJournal
         public bool Xml()
         {
 
-         if(File.Exists(@"C:\Users\njiso\Desktop\test") && File.Exists(@"C:\Users\njiso\Desktop\salt"))
+         if(File.Exists(userStuff + "\\test") && File.Exists(userStuff + "\\salt"))
            {
                 return true;
             }
@@ -103,6 +110,14 @@ namespace PrettyCryptoJournal
         public bool AppBoot()
         {
             string userinput = "";
+
+            if(!Directory.Exists(AppDirectory))      //directory doesnt exist? make it)
+            {
+                System.IO.Directory.CreateDirectory(AppDirectory);
+                //make folder for password stuff. Hidden!
+                System.IO.Directory.CreateDirectory(userStuff);
+                File.SetAttributes(userStuff, File.GetAttributes(userStuff) | FileAttributes.Hidden);
+            }
 
             while (!Xml())
             {
