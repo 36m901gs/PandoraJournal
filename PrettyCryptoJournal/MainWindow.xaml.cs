@@ -141,6 +141,8 @@ namespace PrettyCryptoJournal
                     Saver.EncryptTest(textEditor.Text); 
                 }
 
+                this.Title = "Change Window TItle here";
+
             }
 
             else

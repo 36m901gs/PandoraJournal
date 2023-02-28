@@ -37,7 +37,15 @@ namespace PrettyCryptoJournal
                 keySize);
 
             var hashSave = Convert.ToHexString(hash);
-            File.WriteAllText(userStuff + "\\test", hashSave); //gonna have to make this save path more dynamic later
+
+            //Does the directory exist? IF not make it?
+            if (!Directory.Exists(userStuff))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(userStuff);
+                di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            }
+
+            File.WriteAllText(userStuff + "\\test", hashSave); 
             File.WriteAllBytes(userStuff + "\\salt", salt);
         }
 

@@ -7,18 +7,50 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using ICSharpCode.AvalonEdit;
+using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace PrettyCryptoJournal
 {
     internal class FileSaving
     {
+        //file directory
+        string journalPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Cryptojournal" + "\\journals";
 
         const int keySize = 64;
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
         public void EncryptTest(string inputText)
         {
+            //--------------File Dialogue------------------------
 
+            var filePath = string.Empty;
+            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+
+            saveFileDialog1.Filter = "secret files (*.shh)|*.shh";
+            saveFileDialog1.FilterIndex = 1;
+            saveFileDialog1.InitialDirectory = journalPath;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (!Directory.Exists(journalPath))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(journalPath);
+                di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            }
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string outFile = saveFileDialog1.FileName; //change this to whatever the user selects
+                EncryptFile(outFile, inputText);
+            }
+
+
+            //-----------------------------------------------------
+            
+        }
+
+        public void EncryptFile(string outFile, string inputText)
+        {
             Aes aes = Aes.Create();
             ICryptoTransform encryptor = aes.CreateEncryptor();
 
@@ -27,7 +59,6 @@ namespace PrettyCryptoJournal
             int l_Key = aes.Key.Length;
             byte[] LenKey = BitConverter.GetBytes(l_Key);
 
-            string outFile = "C:\\Users\\njiso\\Desktop\\TessyWessy";
 
             //dependency injection gonna be valuable here!
             using (var outFs = new FileStream(outFile, FileMode.Create))
@@ -54,16 +85,46 @@ namespace PrettyCryptoJournal
                     }
                 }
             }
+
         }
 
         public string DecryptTest()
+        {
+
+            var filePath = string.Empty;
+
+            using (System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = journalPath;
+                openFileDialog.Filter = "secret files (*.shh)|*.shh";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.FileName;
+                    return DecryptFile(filePath);
+
+                  //run decrypt shit using filepath instead of tessywessy
+                }
+                else{
+                    return string.Empty;
+
+                }
+            }
+
+
+        }
+
+        string DecryptFile(string filePath)
         {
 
             Aes aes = Aes.Create();
 
             byte[] LenK = new byte[4];
             byte[] LenIV = new byte[4];
-            using (var openedSave = new FileStream("C:\\Users\\njiso\\Desktop\\TessyWessy", FileMode.Open))
+            using (var openedSave = new FileStream(filePath, FileMode.Open))
             {
 
                 openedSave.Seek(0, SeekOrigin.Begin);
@@ -147,6 +208,7 @@ namespace PrettyCryptoJournal
                     }
                 }
             }
+
         }
 
         bool VerifyPassword(string password, string hash, byte[] salt)
