@@ -20,6 +20,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Rendering;
 using System.Security.Cryptography;
+using System.Data.Common;
 
 
 namespace PrettyCryptoJournal
@@ -33,8 +34,10 @@ namespace PrettyCryptoJournal
 
         bool current_state;
         string text_store; //for holding text during camo mode
-        
 
+        //Key Commands
+        public static RoutedCommand ScrambleToggle = new RoutedCommand();
+        KeyBinding kb = new KeyBinding(ScrambleToggle, new KeyGesture(Key.T, ModifierKeys.Control));
 
 
 
@@ -50,7 +53,21 @@ namespace PrettyCryptoJournal
                 InitializeComponent();
             };
             textEditor.SyntaxHighlighting = null;
+
+            textEditor.InputBindings.Add(kb);
+            CommandBinding cb = new CommandBinding(ScrambleToggle, ScrambleToggleExecuted);
+            textEditor.CommandBindings.Add(cb);
         }
+
+        
+
+        private void ScrambleToggleExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            scrambleBtn_Click(sender, e);
+            // Handle the command here
+        }
+
+
 
         private void textEditor_SelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -94,29 +111,12 @@ namespace PrettyCryptoJournal
             var Opener = new FileSaving();
             textEditor.Text = Opener.DecryptTest();
 
-           
-
-            //if file is bytes, decrypt. else, use below
-            /*
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.CheckFileExists = true;
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                currentFileName = dlg.FileName;
-                textEditor.Load(currentFileName);
-                textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(System.IO.Path.GetExtension(currentFileName));
-            } */
+          
 
         }
         void EncrypTextFunction()
         {
-            //generate key, IV. Save them to directory 
-            // Encrypt text 
-            // Open save dialog(?)
-            // Save file
-
-
-
+           
 
         }
         void saveBtn_Click(object sender, RoutedEventArgs e)
@@ -157,6 +157,7 @@ namespace PrettyCryptoJournal
         {
 
         }
+
 
         private void textEditor_TextChanged(object sender, TextChangedEventArgs e)
         {

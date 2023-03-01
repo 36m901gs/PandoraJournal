@@ -18,7 +18,7 @@
                     </Style.Triggers>
                 </Style>
             </ToolBar.Resources>
-            <Button Click="openBtn_Click">
+            <Button Click="openBtn_Click" >
                 <Image Source="Images/Open.png" Height="16"/>
             </Button>
             <Button Click="saveBtn_Click">
