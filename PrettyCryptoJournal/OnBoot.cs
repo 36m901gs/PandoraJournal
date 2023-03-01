@@ -133,7 +133,7 @@ namespace PrettyCryptoJournal
             }
 
             //password compare 
-            while(!(VerifyPassword(userinput, File.ReadAllText(@"C:\Users\njiso\Desktop\test"),File.ReadAllBytes(@"C:\Users\njiso\Desktop\salt"))))
+            while(!(VerifyPassword(userinput, File.ReadAllText(userStuff + "\\test"),File.ReadAllBytes(userStuff + "\\salt"))))
             {
                 //once this works, add a count to it
                 userinput = Microsoft.VisualBasic.Interaction.InputBox("Password", "Security", "Please Type in A Password");
